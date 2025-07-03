@@ -3,3 +3,7 @@ export const loginDetails = {
   username: "markdavidhalliday@gmail.com",
   password: "tqx1utu0VMA7jfp!hqp",
 };
+export const testData = {
+  principalAmount: 8000,
+  interestRate: 6,
+};

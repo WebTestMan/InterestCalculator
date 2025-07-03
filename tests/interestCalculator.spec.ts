@@ -37,24 +37,99 @@ test.describe("Scenario 1: The application should provide options to choose the 
     });
   });
 
+  test("The application allows you to choose Monthly interest", async ({
+    page,
+  }) => {
+    const interestCalculatorPage = new InterestCalculatorPage(page);
+
+    await test.step("GIVEN I have loaded the Interest Calculator Page", async () => {
+      await interestCalculatorPage.verifyInterestCalculatorPageOpen();
+    });
+
+    await test.step("WHEN I select Monthly interest", async () => {
+      const classList =
+        await interestCalculatorPage.monthlyInterestBtn.getAttribute("class");
+
+      if (classList?.includes("active")) {
+        await interestCalculatorPage.yearlyInterestBtn.click();
+        await expect(interestCalculatorPage.yearlyInterestBtn).toContainClass(
+          "active"
+        );
+      }
+      await interestCalculatorPage.monthlyInterestBtn.click();
+    });
+
+    await test.step("THEN Monthly Interest is selected", async () => {
+      // check btn is highlighted
+      await expect(interestCalculatorPage.monthlyInterestBtn).toContainClass(
+        "active"
+      );
+    });
+  });
+
+  test("The application allows you to choose Yearly interest", async ({
+    page,
+  }) => {
+    const interestCalculatorPage = new InterestCalculatorPage(page);
+
+    await test.step("GIVEN I have loaded the Interest Calculator Page", async () => {
+      await interestCalculatorPage.verifyInterestCalculatorPageOpen();
+    });
+
+    await test.step("WHEN I select Yearly interest", async () => {
+      const classList =
+        await interestCalculatorPage.yearlyInterestBtn.getAttribute("class");
+
+      if (classList?.includes("active")) {
+        await interestCalculatorPage.monthlyInterestBtn.click();
+        await expect(interestCalculatorPage.monthlyInterestBtn).toContainClass(
+          "active"
+        );
+      }
+      await interestCalculatorPage.yearlyInterestBtn.click();
+    });
+
+    await test.step("THEN Yearly Interest is selected", async () => {
+      // check btn is highlighted
+      await expect(interestCalculatorPage.yearlyInterestBtn).toContainClass(
+        "active"
+      );
+    });
+  });
+
   test.afterEach("logout of application", async ({ page }) => {
     await page.getByRole("button", { name: "Logout" }).click();
   });
 });
 
-// test.describe("Scenario 2: Users should be able to input the principal amount.", () => {
-//   test.beforeEach("Load Interest Calculator Page", async ({ page }) => {
-//     logIntoInterestCalculator(page);
-//   });
-// });
+test.describe("Scenario 2: Users should be able to input the principal amount.", () => {
+  test.beforeEach("Load Interest Calculator Page", async ({ page }) => {
+    logIntoInterestCalculator(page);
+  });
 
-// test("Users should be able to input the principal amount.", async ({
-//   page,
-// }) => {
-//   await test.step("GIVEN I have loaded the Interest Calculator Page", async () => {});
-//   await test.step("WHEN I have loaded the login Page", async () => {});
-//   await test.step("THEN I have loaded the login Page", async () => {});
-// });
+  test("Users should be able to input the principal amount.", async ({
+    page,
+  }) => {
+    const interestCalculatorPage = new InterestCalculatorPage(page);
+    const principalAmount = 5000;
+
+    await test.step("GIVEN I have loaded the Interest Calculator Page", async () => {
+      await interestCalculatorPage.verifyInterestCalculatorPageOpen();
+    });
+    await test.step("WHEN I can input the principal amount", async () => {
+      interestCalculatorPage.enterPrincipalAmount(principalAmount);
+    });
+    await test.step("THEN The principal amount is selected", async () => {
+      await expect(
+        interestCalculatorPage.selectedPrincipalAmount
+      ).toContainText(principalAmount.toString());
+    });
+  });
+
+  test.afterEach("logout of application", async ({ page }) => {
+    await page.getByRole("button", { name: "Logout" }).click();
+  });
+});
 
 // test.describe("Scenario 3: Users should be able to select the interest rate from a predefined list of rates up to 15%.", () => {
 //   test.beforeEach("Load Interest Calculator Page", async ({ page }) => {

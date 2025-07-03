@@ -48,6 +48,7 @@ export class InterestCalculatorPage {
     await expect(this.yearlyInterestBtn).toBeVisible();
     await expect(this.interestAmountDropdown).toBeVisible();
     await expect(this.principalAmountSlider).toBeVisible();
+    console.log("All checks passed, The page has loaded.");
   };
 
   verifyInterestAmount = async (interestAmountExpected) => {
@@ -72,5 +73,11 @@ export class InterestCalculatorPage {
         this.principalAmountSlider.press("ArrowRight");
       }
     }
+  };
+
+  selectInterestRate = async (page, interestRate) => {
+    this.interestAmountDropdown.click();
+    await page.getByRole("checkbox", { name: interestRate + "%" }).check();
+    
   };
 }

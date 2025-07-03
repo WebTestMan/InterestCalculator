@@ -16,7 +16,7 @@
   },
   "homepage": "https://github.com/WebTestMan/interestCalculatorTestSuite#readme",
   "devDependencies": {
-    "@playwright/test": "^1.53.1",
+    "@playwright/test": "^1.53.2",
     "@types/node": "^24.0.4"
   }
 }

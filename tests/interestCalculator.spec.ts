@@ -1,10 +1,11 @@
 import { test, expect } from "@playwright/test";
 import { InterestCalculatorPage } from "../src/pages/InterestCalculatorPage.ts";
 import { logIntoInterestCalculator } from "../src/helpers/logIntoPage.ts";
+import { testData } from "../src/data/testData";
 
 test.describe("Scenario 1: The application should provide options to choose the duration for interest calculation: Daily, Monthly, and Yearly.", () => {
   test.beforeEach("Load Interest Calculator Page", async ({ page }) => {
-    logIntoInterestCalculator(page);
+    await logIntoInterestCalculator(page);
   });
 
   test("The application allows you to choose Daily interest", async ({
@@ -97,27 +98,25 @@ test.describe("Scenario 1: The application should provide options to choose the 
     });
   });
 
-  test.afterEach("logout of application", async ({ page }) => {
-    await page.getByRole("button", { name: "Logout" }).click();
-  });
-});
+  // test.afterEach("logout of application", async ({ page }) => {
+  //   await page.getByRole("button", { name: "Logout" }).click();
+  // });
+  // });
 
-test.describe("Scenario 2: Users should be able to input the principal amount.", () => {
-  test.beforeEach("Load Interest Calculator Page", async ({ page }) => {
-    logIntoInterestCalculator(page);
-  });
+  // test.describe("Scenario 2: Users should be able to input the principal amount.", () => {
+  //   test.beforeEach("Load Interest Calculator Page", async ({ page }) => {
+  //     await logIntoInterestCalculator(page);
+  //   });
 
   test("Users should be able to input the principal amount.", async ({
     page,
   }) => {
     const interestCalculatorPage = new InterestCalculatorPage(page);
-    const principalAmount = 5000;
+    const principalAmount = testData.principalAmount;
 
-    await test.step("GIVEN I have loaded the Interest Calculator Page", async () => {
-      await interestCalculatorPage.verifyInterestCalculatorPageOpen();
-    });
     await test.step("WHEN I can input the principal amount", async () => {
       interestCalculatorPage.enterPrincipalAmount(principalAmount);
+      interestCalculatorPage.calculatedInterest.click();
     });
     await test.step("THEN The principal amount is selected", async () => {
       await expect(
@@ -129,22 +128,31 @@ test.describe("Scenario 2: Users should be able to input the principal amount.",
   test.afterEach("logout of application", async ({ page }) => {
     await page.getByRole("button", { name: "Logout" }).click();
   });
+
+  // test.describe("Scenario 3: Users should be able to select the interest rate from a predefined list of rates up to 15%.", () => {
+  //   test.beforeEach("Load Interest Calculator Page", async ({ page }) => {
+  //     logIntoInterestCalculator(page);
+  //   });
+  // });
+
+  test("Users should be able to select the interest rate from a predefined list of rates up to 15%.", async ({
+    page,
+  }) => {
+    const interestCalculatorPage = new InterestCalculatorPage(page);
+    const interestRate = testData.interestRate;
+    await test.step("GIVEN I have loaded the Interest Calculator Page", async () => {
+      await interestCalculatorPage.verifyInterestCalculatorPageOpen();
+    });
+    await test.step("WHEN I select the interest rate", async () => {
+      await interestCalculatorPage.selectInterestRate(page, interestRate);
+    });
+    await test.step("THEN I have loaded the login Page", async () => {
+      await expect(
+        page.getByRole("button", { name: `Selected Rate: ${interestRate}%` })
+      ).toContainText(interestRate.toString());
+    });
+  });
 });
-
-// test.describe("Scenario 3: Users should be able to select the interest rate from a predefined list of rates up to 15%.", () => {
-//   test.beforeEach("Load Interest Calculator Page", async ({ page }) => {
-//     logIntoInterestCalculator(page);
-//   });
-// });
-
-// test("Users should be able to select the interest rate from a predefined list of rates up to 15%.", async ({
-//   page,
-// }) => {
-//   await test.step("GIVEN I have loaded the Interest Calculator Page", async () => {});
-//   await test.step("WHEN I have loaded the login Page", async () => {});
-//   await test.step("THEN I have loaded the login Page", async () => {});
-// });
-
 // test.describe("Scenario 4: The application should calculate the correct interest based on the selected duration, principal amount, and interest rate.", () => {
 //   test.beforeEach("Load Interest Calculator Page", async ({ page }) => {
 //     logIntoInterestCalculator(page);

@@ -1,14 +1,6 @@
-import { test, expect, type Page } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import { InterestCalculatorPage } from "../src/pages/InterestCalculatorPage.ts";
-import { pageURL, loginDetails } from "../src/data/testData";
-import { assert } from "console";
-
-const logIntoInterestCalculator = async (page) => {
-  await page.goto(pageURL);
-  await page.locator("#UserName").fill(loginDetails.username);
-  await page.locator("#Password").fill(loginDetails.password);
-  await page.getByRole("button", { name: "Log in" }).click();
-};
+import { logIntoInterestCalculator } from "../src/helpers/logIntoPage.ts";
 
 test.describe("Scenario 1: The application should provide options to choose the duration for interest calculation: Daily, Monthly, and Yearly.", () => {
   test.beforeEach("Load Interest Calculator Page", async ({ page }) => {
@@ -21,18 +13,17 @@ test.describe("Scenario 1: The application should provide options to choose the 
     const interestCalculatorPage = new InterestCalculatorPage(page);
 
     await test.step("GIVEN I have loaded the Interest Calculator Page", async () => {
-      interestCalculatorPage.verifyInterestCalculatorPageOpen;
+      await interestCalculatorPage.verifyInterestCalculatorPageOpen();
     });
 
     await test.step("WHEN I select Daily interest", async () => {
-      if (
-        (await interestCalculatorPage.dailyInterestBtn.getAttribute(
-          "class"
-        )) === "highlighted"
-      ) {
+      const classList =
+        await interestCalculatorPage.dailyInterestBtn.getAttribute("class");
+
+      if (classList?.includes("active")) {
         await interestCalculatorPage.monthlyInterestBtn.click();
-        await expect(interestCalculatorPage.monthlyInterestBtn).toHaveClass(
-          "highlighted"
+        await expect(interestCalculatorPage.monthlyInterestBtn).toContainClass(
+          "active"
         );
       }
       await interestCalculatorPage.dailyInterestBtn.click();
@@ -40,13 +31,14 @@ test.describe("Scenario 1: The application should provide options to choose the 
 
     await test.step("THEN Daily Interest is selected", async () => {
       // check btn is highlighted
-      await expect(interestCalculatorPage.dailyInterestBtn).toHaveClass(
-        "highlighted"
+      await expect(interestCalculatorPage.dailyInterestBtn).toContainClass(
+        "active"
       );
     });
   });
+
   test.afterEach("logout of application", async ({ page }) => {
-    await page.getByRole("button", { name: "Log out" }).click();
+    await page.getByRole("button", { name: "Logout" }).click();
   });
 });
 

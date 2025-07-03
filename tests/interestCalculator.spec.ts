@@ -1,6 +1,7 @@
 import { test, expect, type Page } from "@playwright/test";
-import { InterestCalculatorPage } from "../src/pages/InterestCalculatorPage";
+import { InterestCalculatorPage } from "../src/pages/InterestCalculatorPage.ts";
 import { pageURL, loginDetails } from "../src/data/testData";
+import { assert } from "console";
 
 const logIntoInterestCalculator = async (page) => {
   await page.goto(pageURL);
@@ -24,13 +25,28 @@ test.describe("Scenario 1: The application should provide options to choose the 
     });
 
     await test.step("WHEN I select Daily interest", async () => {
+      if (
+        (await interestCalculatorPage.dailyInterestBtn.getAttribute(
+          "class"
+        )) === "highlighted"
+      ) {
+        await interestCalculatorPage.monthlyInterestBtn.click();
+        await expect(interestCalculatorPage.monthlyInterestBtn).toHaveClass(
+          "highlighted"
+        );
+      }
       await interestCalculatorPage.dailyInterestBtn.click();
-      
     });
 
     await test.step("THEN Daily Interest is selected", async () => {
       // check btn is highlighted
+      await expect(interestCalculatorPage.dailyInterestBtn).toHaveClass(
+        "highlighted"
+      );
     });
+  });
+  test.afterEach("logout of application", async ({ page }) => {
+    await page.getByRole("button", { name: "Log out" }).click();
   });
 });
 

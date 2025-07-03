@@ -5,7 +5,8 @@ export class InterestCalculatorPage {
   readonly dailyInterestBtn: Locator;
   readonly monthlyInterestBtn: Locator;
   readonly yearlyInterestBtn: Locator;
-  readonly principalAmountField: Locator;
+  readonly principalAmountSlider: Locator;
+  readonly selectedPrincipalAmount: Locator;
   readonly interestAmountDropdown: Locator;
   readonly calculateInterestBtn: Locator;
   readonly consentCheckBox: Locator;
@@ -17,9 +18,10 @@ export class InterestCalculatorPage {
     this.dailyInterestBtn = page.getByRole("link", { name: "Daily" });
     this.monthlyInterestBtn = page.getByRole("link", { name: "Monthly" });
     this.yearlyInterestBtn = page.getByRole("link", { name: "Yearly" });
-    this.principalAmountField = page.getByRole("slider", {
+    this.principalAmountSlider = page.getByRole("slider", {
       name: "Principal Amount:",
     });
+    this.selectedPrincipalAmount = page.locator("#selectedValue");
     this.interestAmountDropdown = page.getByRole("button", {
       name: "Select Interest Rate",
     });
@@ -41,6 +43,11 @@ export class InterestCalculatorPage {
 
   verifyInterestCalculatorPageOpen = async () => {
     await expect(this.calculatorPageTitle).toContainText(this.pageTitle);
+    await expect(this.dailyInterestBtn).toBeVisible();
+    await expect(this.monthlyInterestBtn).toBeVisible();
+    await expect(this.yearlyInterestBtn).toBeVisible();
+    await expect(this.interestAmountDropdown).toBeVisible();
+    await expect(this.principalAmountSlider).toBeVisible();
   };
 
   verifyInterestAmount = async (interestAmountExpected) => {
@@ -56,6 +63,14 @@ export class InterestCalculatorPage {
   };
 
   enterPrincipalAmount = async (principalAmount) => {
-    await this.principalAmountField.fill(principalAmount);
+    while (this.selectedPrincipalAmount != principalAmount) {
+      if (this.selectedPrincipalAmount > principalAmount) {
+        // move slider left
+        this.principalAmountSlider.press("ArrowLeft");
+      } else {
+        //move slider right
+        this.principalAmountSlider.press("ArrowRight");
+      }
+    }
   };
 }

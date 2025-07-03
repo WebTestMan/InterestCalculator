@@ -1,0 +1,22 @@
+{
+  "name": "interestcalculatortestsuite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WebTestMan/interestCalculatorTestSuite.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WebTestMan/interestCalculatorTestSuite/issues"
+  },
+  "homepage": "https://github.com/WebTestMan/interestCalculatorTestSuite#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.53.1",
+    "@types/node": "^24.0.4"
+  }
+}

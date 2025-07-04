@@ -197,7 +197,7 @@ test.describe("Scenario 1: The application should provide options to choose the 
       await interestCalculatorPage.verifyInterestCalculatorPageOpen();
     });
 
-    await test.step("WHEN I set the princiapl amount to 0", async () => {
+    await test.step("WHEN I set the principal amount to 0", async () => {
       await interestCalculatorPage.selectPrincipalAmount("0");
       await interestCalculatorPage.selectInterestRate(page, interestRate);
     });

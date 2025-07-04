@@ -69,8 +69,13 @@ export class InterestCalculatorPage {
   };
 
   selectInterestRate = async (page, interestRate) => {
-    this.interestAmountDropdown.click();
+    await this.interestAmountDropdown.click();
     await page.getByRole("checkbox", { name: interestRate + "%" }).check();
     await page.getByText("Consent", { exact: true }).click();
+  };
+
+  calculateInterest = async () => {
+    await this.consentCheckBox.check();
+    await this.calculateInterestBtn.click();
   };
 }

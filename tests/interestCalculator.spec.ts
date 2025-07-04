@@ -182,22 +182,23 @@ test.describe("Scenario 1: The application should provide options to choose the 
   test("All input fields (principal amount, interest rate, duration and consent) are mandatory.", async ({
     page,
   }) => {
+    const interestCalculatorPage = new InterestCalculatorPage(page);
+    // const interestRate = testData2.interestRate;
+    const principalAmount = testData2.principalAmount;
+    // const expectedInterest = testData2.expectedInterest;
+    // const expectedTotal = testData2.expectedTotal;
 
-     const interestCalculatorPage = new InterestCalculatorPage(page);
-     const interestRate = testData2.interestRate;
-     const principalAmount = testData2.principalAmount;
-     const expectedInterest = testData2.expectedInterest;
-     const expectedTotal = testData2.expectedTotal;
-
-     await test.step("GIVEN I have loaded the Interest Calculator Page", async () => {
-       await interestCalculatorPage.verifyInterestCalculatorPageOpen();
-     });
+    await test.step("GIVEN I have loaded the Interest Calculator Page", async () => {
+      await interestCalculatorPage.verifyInterestCalculatorPageOpen();
+    });
 
     await test.step("WHEN I don't select an interest rate", async () => {
       await interestCalculatorPage.selectPrincipalAmount(principalAmount);
     });
 
-    await test.step("THEN the page alerts me to Please fill in all fields", async () => {});
+    await test.step("THEN the page alerts me to Please fill in all fields", async () => {
+      await interestCalculatorPage.calculateInterest(page);
+    });
   });
 
   // test.describe("Scenario 8: For simplicity, the calculated interest and total amount should be rounded to two decimal places.", () => {

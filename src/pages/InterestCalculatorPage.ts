@@ -79,7 +79,7 @@ export class InterestCalculatorPage {
     if (page) {
       page.once("dialog", (dialog) => {
         console.log(`Dialog message: ${dialog.message()}`);
-        expect(dialog.message()).toContainText("Please fill in all fields");
+        expect(dialog.message()).toEqual("Please fill in all fields.");
         dialog.dismiss().catch(() => {});
       });
     }

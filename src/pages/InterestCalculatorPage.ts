@@ -63,7 +63,7 @@ export class InterestCalculatorPage {
     );
   };
 
-  enterPrincipalAmount = async (principalAmount) => {
+  selectPrincipalAmount = async (principalAmount) => {
     await this.principalAmountSlider.fill(principalAmount);
     await expect(this.selectedPrincipalAmount).toContainText(principalAmount);
   };
@@ -74,8 +74,15 @@ export class InterestCalculatorPage {
     await page.getByText("Consent", { exact: true }).click();
   };
 
-  calculateInterest = async () => {
+  calculateInterest = async (page?) => {
     await this.consentCheckBox.check();
+    if (page) {
+      page.once("dialog", (dialog) => {
+        console.log(`Dialog message: ${dialog.message()}`);
+        expect(dialog.message()).toContainText("Please fill in all fields");
+        dialog.dismiss().catch(() => {});
+      });
+    }
     await this.calculateInterestBtn.click();
   };
 }

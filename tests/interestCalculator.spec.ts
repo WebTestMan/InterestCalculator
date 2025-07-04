@@ -115,7 +115,7 @@ test.describe("Scenario 1: The application should provide options to choose the 
     const principalAmount = testData.principalAmount;
 
     await test.step("WHEN I can input the principal amount", async () => {
-      interestCalculatorPage.enterPrincipalAmount(principalAmount);
+      interestCalculatorPage.selectPrincipalAmount(principalAmount);
     });
     await test.step("THEN The principal amount is selected", async () => {
       await expect(
@@ -162,7 +162,7 @@ test.describe("Scenario 1: The application should provide options to choose the 
 
     await test.step("WHEN I select a duration, principal amount, and interest rate", async () => {
       // select principal amount
-      await interestCalculatorPage.enterPrincipalAmount(principalAmount);
+      await interestCalculatorPage.selectPrincipalAmount(principalAmount);
 
       // select interest rate
       await interestCalculatorPage.selectInterestRate(page, interestRate);
@@ -179,13 +179,26 @@ test.describe("Scenario 1: The application should provide options to choose the 
   });
 
   // The application should inform the user if any field is left empty or not selected.
-  // test("All input fields (principal amount, interest rate, duration and consent) are mandatory.", async ({
-  //   page,
-  // }) => {
-  //   await test.step("GIVEN I have loaded the Interest Calculator Page", async () => {});
-  //   await test.step("WHEN I have loaded the login Page", async () => {});
-  //   await test.step("THEN I have loaded the login Page", async () => {});
-  // });
+  test("All input fields (principal amount, interest rate, duration and consent) are mandatory.", async ({
+    page,
+  }) => {
+
+     const interestCalculatorPage = new InterestCalculatorPage(page);
+     const interestRate = testData2.interestRate;
+     const principalAmount = testData2.principalAmount;
+     const expectedInterest = testData2.expectedInterest;
+     const expectedTotal = testData2.expectedTotal;
+
+     await test.step("GIVEN I have loaded the Interest Calculator Page", async () => {
+       await interestCalculatorPage.verifyInterestCalculatorPageOpen();
+     });
+
+    await test.step("WHEN I don't select an interest rate", async () => {
+      await interestCalculatorPage.selectPrincipalAmount(principalAmount);
+    });
+
+    await test.step("THEN the page alerts me to Please fill in all fields", async () => {});
+  });
 
   // test.describe("Scenario 8: For simplicity, the calculated interest and total amount should be rounded to two decimal places.", () => {
   //   test.beforeEach("Load Interest Calculator Page", async ({ page }) => {

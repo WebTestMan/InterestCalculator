@@ -7,3 +7,10 @@ export const testData = {
   principalAmount: "8000",
   interestRate: 6,
 };
+
+export const testData2 = {
+  principalAmount: "1000",
+  interestRate: 10,
+  expectedTotal: "1100",
+  expectedInterest: "100",
+};

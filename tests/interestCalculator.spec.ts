@@ -194,6 +194,7 @@ test.describe("Scenario 1: The application should provide options to choose the 
 
     await test.step("THEN the page alerts me to Please fill in all fields", async () => {
       await interestCalculatorPage.calculateInterest(page);
+      await interestCalculatorPage.verifyCalculationNotDisplayed();
     });
   });
 
@@ -212,6 +213,7 @@ test.describe("Scenario 1: The application should provide options to choose the 
 
     await test.step("THEN the page alerts me to Please fill in all fields", async () => {
       await interestCalculatorPage.calculateInterest(page);
+      await interestCalculatorPage.verifyCalculationNotDisplayed();
     });
   });
 
@@ -231,7 +233,7 @@ test.describe("Scenario 1: The application should provide options to choose the 
 
     await test.step("THEN the page alerts me to Please fill in all fields", async () => {
       await interestCalculatorPage.calculateInterest(page, false);
-      await interestCalculatorPage.verifyCalculationNotDisplayed;
+      await interestCalculatorPage.verifyCalculationNotDisplayed();
     });
   });
 

@@ -64,20 +64,13 @@ export class InterestCalculatorPage {
   };
 
   enterPrincipalAmount = async (principalAmount) => {
-    while (this.selectedPrincipalAmount != principalAmount) {
-      if (this.selectedPrincipalAmount > principalAmount) {
-        // move slider left
-        this.principalAmountSlider.press("ArrowLeft");
-      } else {
-        //move slider right
-        this.principalAmountSlider.press("ArrowRight");
-      }
-    }
+    await this.principalAmountSlider.fill(principalAmount);
+    await expect(this.selectedPrincipalAmount).toContainText(principalAmount);
   };
 
   selectInterestRate = async (page, interestRate) => {
     this.interestAmountDropdown.click();
     await page.getByRole("checkbox", { name: interestRate + "%" }).check();
-    
+    await page.getByText("Consent", { exact: true }).click();
   };
 }

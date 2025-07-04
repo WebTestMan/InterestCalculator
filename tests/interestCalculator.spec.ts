@@ -116,12 +116,11 @@ test.describe("Scenario 1: The application should provide options to choose the 
 
     await test.step("WHEN I can input the principal amount", async () => {
       interestCalculatorPage.enterPrincipalAmount(principalAmount);
-      interestCalculatorPage.calculatedInterest.click();
     });
     await test.step("THEN The principal amount is selected", async () => {
       await expect(
         interestCalculatorPage.selectedPrincipalAmount
-      ).toContainText(principalAmount.toString());
+      ).toContainText(principalAmount);
     });
   });
 

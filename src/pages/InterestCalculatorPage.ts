@@ -74,8 +74,12 @@ export class InterestCalculatorPage {
     await page.getByText("Consent", { exact: true }).click();
   };
 
-  calculateInterest = async (page?) => {
-    await this.consentCheckBox.check();
+  calculateInterest = async (page?, acceptConsent = true) => {
+    console.log("acceptConsent: " + acceptConsent);
+    if (acceptConsent === true) {
+      await this.consentCheckBox.check();
+    }
+    // console.log(page)
     if (page) {
       page.once("dialog", (dialog) => {
         console.log(`Dialog message: ${dialog.message()}`);
@@ -84,5 +88,11 @@ export class InterestCalculatorPage {
       });
     }
     await this.calculateInterestBtn.click();
+  };
+
+  verifyCalculationNotDisplayed = async () => {
+    await expect(this.calculatedInterest).not.toBeVisible();
+    await expect(this.totalAmount).not.toBeVisible();
+    console.log("Items were not displayed")
   };
 }

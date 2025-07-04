@@ -40,6 +40,7 @@ export class InterestCalculatorPage {
   pageTitle = "Interest Calculator";
   interestAmountText = "Interest Amount: ";
   totalAmountText = "Total Amount with Interest: ";
+  errorDialogMessage = "Please fill in all fields.";
 
   verifyInterestCalculatorPageOpen = async () => {
     await expect(this.calculatorPageTitle).toContainText(this.pageTitle);
@@ -79,11 +80,10 @@ export class InterestCalculatorPage {
     if (acceptConsent === true) {
       await this.consentCheckBox.check();
     }
-    // console.log(page)
     if (page) {
       page.once("dialog", (dialog) => {
         console.log(`Dialog message: ${dialog.message()}`);
-        expect(dialog.message()).toEqual("Please fill in all fields.");
+        expect(dialog.message()).toEqual(this.errorDialogMessage);
         dialog.dismiss().catch(() => {});
       });
     }
@@ -93,6 +93,5 @@ export class InterestCalculatorPage {
   verifyCalculationNotDisplayed = async () => {
     await expect(this.calculatedInterest).not.toBeVisible();
     await expect(this.totalAmount).not.toBeVisible();
-    console.log("Items were not displayed")
   };
 }

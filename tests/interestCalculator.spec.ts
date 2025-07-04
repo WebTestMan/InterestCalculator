@@ -61,7 +61,6 @@ test.describe("Scenario 1: The application should provide options to choose the 
     });
 
     await test.step("THEN Monthly Interest is selected", async () => {
-      // check btn is highlighted
       await expect(interestCalculatorPage.monthlyInterestBtn).toContainClass(
         "active"
       );
@@ -91,14 +90,11 @@ test.describe("Scenario 1: The application should provide options to choose the 
     });
 
     await test.step("THEN Yearly Interest is selected", async () => {
-      // check btn is highlighted
       await expect(interestCalculatorPage.yearlyInterestBtn).toContainClass(
         "active"
       );
     });
   });
-
-  // test.afterEach("logout of application", async ({ page }) => {
   //   await page.getByRole("button", { name: "Logout" }).click();
   // });
   // });
@@ -161,13 +157,8 @@ test.describe("Scenario 1: The application should provide options to choose the 
     });
 
     await test.step("WHEN I select a duration, principal amount, and interest rate", async () => {
-      // select principal amount
       await interestCalculatorPage.selectPrincipalAmount(principalAmount);
-
-      // select interest rate
       await interestCalculatorPage.selectInterestRate(page, interestRate);
-
-      // select duration
       await interestCalculatorPage.yearlyInterestBtn.click();
       await interestCalculatorPage.calculateInterest();
     });
@@ -217,6 +208,7 @@ test.describe("Scenario 1: The application should provide options to choose the 
     });
   });
 
+  // This test fails because the consent checkbox is does not prevent you from using the calculator
   test("Consent is mandatory.", async ({ page }) => {
     const interestCalculatorPage = new InterestCalculatorPage(page);
     const interestRate = testData2.interestRate;
